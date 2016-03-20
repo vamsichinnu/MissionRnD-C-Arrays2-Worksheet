@@ -16,6 +16,7 @@ ERROR CASES: Return NULL for invalid inputs.
 NOTES:
 */
 
+
 #include <iostream>
 
 struct transaction {
@@ -24,6 +25,90 @@ struct transaction {
 	char description[20];
 };
 
+int check(struct transaction *A, struct transaction *B, int ALen, int BLen, int i, int j)
+
+{
+	int k, temp;
+	for (k = 6; A[i].date[k] != '\0'; k++)
+	{
+		if (A[i].date[k] == B[i].date[k])
+		{
+			temp = 1;
+		}
+		else if (A[i].date[k] > B[i].date[k])
+		{
+			return 0;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	if (temp == 1)
+	{
+		if (A[i].date[3] * 10 + A[i].date[4] == (B[i].date[3] * 10) + B[i].date[4])
+		{
+			temp = 1;
+		}
+		else if (A[i].date[3] * 10 + A[i].date[4]>(B[i].date[3] * 10) + B[i].date[4])
+		{
+			return 0;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	if (temp == 1)
+	{
+		if (A[i].date[0] * 10 + A[i].date[1] == (B[i].date[0] * 10) + B[i].date[1])
+		{
+			return 1;
+		}
+		else if (A[i].date[0] * 10 + A[i].date[1]> (B[i].date[0] * 10) + B[i].date[1])
+		{
+			return 0;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+}
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
-	return NULL;
+	int i, j = 0, count = 0;
+	struct transaction  *res = NULL;
+	res = (struct transaction *)malloc(sizeof(struct transaction) * 0);
+	if (A&&B&&ALen > 0 && BLen > 0)
+	{
+		for (i = 0; i < ALen; i++)
+		{
+			if (j >= BLen)
+			{
+				break;
+			}
+			if (check(A, B, ALen, BLen, i, j) == 1)
+			{
+				res = (struct transaction *)realloc(res, sizeof(struct transaction)*(count + 1));
+				res[count] = A[i];
+				printf("%s\n", res[count].date);
+				count++;
+				j++;
+			}
+			else if (check(A, B, ALen, BLen, i, j) == 0)
+			{
+				j++;
+			}
+		}
+		if (count == 0)
+		{
+			return NULL;
+		}
+
+	}
+	else
+	{
+		return NULL;
+	}
+	return res;
 }
